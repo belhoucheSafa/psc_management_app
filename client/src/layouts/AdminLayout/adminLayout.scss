@@ -21,8 +21,8 @@
     gap: 12px;
 
     .space-item-wrapper {
-      height: 47px;
-      width: 47px;
+      height: 40px;
+      width: 40px;
       border: 1px solid #f3f3f1;
       border-radius: 8px;
       padding: 2px;
@@ -49,8 +49,8 @@
       height: 27px;
       width: 3px;
       position: absolute;
-      background-color: red;
-      right: -22%;
+      // background-color: red;
+      right: -38%;
       border-bottom-left-radius: 3px;
       border-top-left-radius: 3px;
       opacity: 0;
@@ -67,11 +67,11 @@
     }
 
     .space-item-wrapper.psc-space {
-      margin-top: 75px;
+      margin-top: 110%;
       .space-item {
         background: #f8f8f8;
         .psc-icon {
-          width: 34px;
+          width: 27px;
         }
       }
       &:hover,
@@ -99,7 +99,7 @@
     .space-item-wrapper.drive-space {
       .space-item {
         .drive-icon {
-          width: 26px;
+          width: 22px;
         }
       }
       .space-item {
@@ -125,7 +125,7 @@
       .space-item {
         background: #f8f8f8;
         .polyWebsite-icon {
-          width: 29px;
+          width: 24px;
         }
       }
       &:hover {

@@ -12,6 +12,7 @@ import { IoDocumentAttachOutline } from "react-icons/io5";
 import { LuSwatchBook } from "react-icons/lu";
 import { LuNotebookTabs } from "react-icons/lu";
 import { MdOutlineLibraryBooks } from "react-icons/md";
+import { HiOutlineUserGroup } from "react-icons/hi2";
 
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -64,94 +65,7 @@ const Sidebar = () => {
           <PiCaretUpDownBold />
         </div>
       </div>
-      {/* <div className="admin-layout-sidebar-center">
-        <div className="dropdown-menu">
-          <div className="group">
-            <div className="group-title">Main Menu</div>
-            <div
-              className={`option ${
-                activeOption === "Option 1" ? "active" : ""
-              }`}
-              onClick={() => handleSelect("Option 1" , "/admin/dashboard")}
-            >
-              <div className="option-icon">
-                <TbLayoutDashboard />
-              </div>
-              <div className="option-text">Dashboard</div>
-            </div>
-            <div
-              className={`option ${
-                activeOption === "Option 2" ? "active" : ""
-              }`}
-              onClick={() => handleSelect("Option 2" , "/admin/news")}
-            >
-              <div className="option-icon">
-                <HiOutlineNewspaper />
-              </div>
-              <div className="option-text">News</div>
-            </div>
-            <div
-              className={`option ${
-                activeOption === "Option 3" ? "active" : ""
-              }`}
-              onClick={() => handleSelect("Option 3" , "/admin/events")}
-            >
-              <div className="option-icon">
-                <PiCalendarStarBold />
-              </div>
-              <div className="option-text">Events</div>
-            </div>
-          </div>
 
-          <div className="group">
-            <div className="group-title">Management</div>
-            <div
-              className={`option ${
-                activeOption === "Option 4" ? "active" : ""
-              }`}
-              onClick={() => handleSelect("Option 4" , "/admin/students")}
-            >
-              <div className="option-icon">
-                <PiStudentBold />
-              </div>
-              <div className="option-text">Students</div>
-            </div>
-            <div
-              className={`option ${
-                activeOption === "Option 5" ? "active" : ""
-              }`}
-              onClick={() => handleSelect("Option 5" ,"/admin/tutors")}
-            >
-              <div className="option-icon">
-                <FaChalkboardTeacher />
-              </div>
-              <div className="option-text">Tutors</div>
-            </div>
-            <div
-              className={`option ${
-                activeOption === "Option 6" ? "active" : ""
-              }`}
-              onClick={() => handleSelect("Option 6" , "/admin/teams")}
-            >
-              <div className="option-icon">
-                <HiUserGroup />
-              </div>
-              <div className="option-text">Teams</div>
-            </div>
-            <div
-              className={`option ${
-                activeOption === "Option 7" ? "active" : ""
-              }`}
-              onClick={() => handleSelect("Option 7" , "/admin/reports")}
-            >
-              <div className="option-icon">
-                <LuSwatchBook  />
-              </div>
-              <div className="option-text">Reports</div>
-            </div>
-          </div>
-        </div>
-      </div> */}
 
       <div className="admin-layout-sidebar-center">
         <div className="dropdown-menu">

@@ -413,185 +413,437 @@
     height: 9px;
   }
 }
-
-.upload-avatar-section-wrapper {
-  height: fit-content;
-  width: 100%;
-  // border: 2px solid black;
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
-  align-items: flex-start;
-  justify-content: center;
-
-  .upload-avatar-left {
-    // border: 2px solid red;
-    height: fit-content;
-    width: fit-content;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .upload-avatar-right {
-    // border: 2px solid green;
-    height: fit-content;
-    // width: 370px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    margin-top: 10px;
-
-    .avatar-details {
-      font-size: 13px;
-      color: #aeacac;
-    }
-  }
+.ant-drawer .ant-drawer-mask {
+  // background: rgb(0 0 0 / 0%) !important;
+  background: rgb(0 0 0 / 14%) !important
 }
 
-.ant-upload-wrapper.ant-upload-picture-circle-wrapper
-  .ant-upload.ant-upload-select {
-  width: 70px;
-  height: 70px;
-}
-.ant-upload-wrapper.ant-upload-picture-circle-wrapper
-  .ant-upload.ant-upload-select {
-  margin: 0;
+.ant-drawer-content-wrapper {
+  margin: 10px !important;
+  border-radius: 10px !important;
 }
 
-.add-new-admin-form-wrapper {
-  // height: 100px;
-  width: 100%;
-  // border: 2px solid black;
-  margin: 20px auto;
+.ant-drawer-content {
+  border-radius: 10px !important;
+}
+
+.ant-drawer-header {
+  display: none !important;
+}
+.ant-drawer-body {
+  padding: 5px !important;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  justify-content: space-between;
 
-  .leftside,
-  .rightside {
-    flex: 1;
-    // border:2px solid red;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    .new-admin-form-item {
-      display: flex;
-      flex-direction: column;
-      // border:2px solid green;
-      gap: 3px;
-      .label {
-        font-size: 15px;
-        font-weight: 800;
-        color: #333;
-      }
-      .input {
-        width: 100%;
-      }
-    }
-  }
-  .right-side {
-    flex: 1;
-  }
-
-  .new-admin-inputs {
-    height: fit-content;
+  .add-new-tutor-header {
+    width: 100%;
+    height: 6px;
+    // border: 1px solid red;
     display: flex;
     flex-direction: row;
-    gap: 8px;
-  }
-}
+    justify-content: flex-end;
 
-.add-new-admin-roles {
-  width: 100%;
-  height: fit-content;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  .new-admin-roles-label {
-    font-size: 15px;
-    font-weight: 800;
-    color: #333;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 0 5px;
+    .title-wrapper {
+      width: fit-content;
+      height: fit-content;
+      // border: 1px solid blue;
+      display: flex;
+      flex-direction: row;
+      gap: 1px;
+
+      .icon {
+        height: 30px;
+        width: 30px;
+        // border: 1px solid red;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 30px;
+          object-fit: cover;
+          margin-left: -5px;
+        }
+      }
+
+      .text {
+        height: fit-content;
+        width: fit-content;
+        font-size: 14px;
+        font-weight: 900;
+        color: #333;
+        margin-top: 8px;
+      }
+    }
+
+    .close-btn {
+      height: 25px;
+      width: 25px;
+      border-radius: 4px;
+      font-size: 17px;
+      color: #acacac;
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      background: rgba(235, 236, 234, 0.85);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border: 1px solid rgba(235, 236, 234, 0.33);
+      &:hover {
+        background: rgb(0 0 0 / 7%);
+        border: 1px solid #acacac38;
+      }
+    }
   }
-  .roles-wrapper {
+
+  .new-tutor-body-wrapper {
+    // border: 1px solid red;
+    padding: 5px;
+    margin: 10px auto 0;
+    // flex: 1;
+    height: 95%;
+    width: 95%;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    width: fit-content;
-
-    .three-checkboxes-top {
+    position: relative;
+    align-items: center;
+    .tutor-icon-wrapper {
+      height: 65px;
+      width: 65px;
+      // border: 1px solid red;
+      background-color: #fff;
+      border-radius: 50%;
       display: flex;
-      flex-direction: row;
-      gap: 25px;
-      .ant-checkbox + span {
-        padding-inline-start: 4px;
-        padding-inline-end: 4px;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: -3%;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(238, 143, 32, 0.1607843137);
+      .tutor-icon {
+        height: 53px;
+        width: 53px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        box-shadow: rgb(238 143 32 / 17%) 0px 0px 0px 1px;
+        background: #fef7ed2e;
+        padding: 3px;
+        opacity: 0.9;
+        img {
+          width: 35px;
+        }
+        .tutor-icon-qrcode {
+          border: none;
+          padding: 0 !important;
+          height: 100% !important;
+          width: 100% !important;
+        }
       }
     }
-    .three-checkboxes-bottom {
+    .tutor-details-container {
+      width: 100%;
+      height: 100%;
+      max-height: 97%;
+      border-radius: 12px;
+      margin: 15px auto 0;
+      background: rgb(254 247 237 / 10%);
+      border: 1px solid #ee8f2029;
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      gap: 6px;
-      .ant-checkbox + span {
-        padding-inline-start: 4px;
-        padding-inline-end: 4px;
+      flex-direction: column;
+      padding: 8px;
+
+      gap: 10px;
+      .tutor-id-wrapper {
+        margin: 12% auto 0px;
+        font-size: 10px;
+        font-weight: 800;
+        color: #acacac;
+        padding: 4px 10px;
+        background: rgba(235, 236, 234, 0.51);
+        border-radius: 4px;
+      }
+
+      .new-tuto-infos-wrapper {
+        // flex: 1;
+        height: 100%;
+        max-height: 99%;
+        overflow-y: scroll;
+        width: 95%;
+        // border: 1px solid red;
+        margin: 6% auto 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-between;
+
+        .form-wrapper {
+          width: 100%;
+          // height: fit-content;
+          // max-height: 100%;
+          // overflow: scroll;
+          display: flex;
+          flex-direction: column;
+          gap: 7px;
+          // border: 1px solid blue;
+        }
+
+        .new-tutor-btns-wrapper {
+          width: 100%;
+          height: fit-content;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          margin: 15px auto 10px;
+          .save-tutor-save,
+          .save-tutor-cancel {
+            height: 28px;
+            width: fit-content;
+
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+
+            padding: 0 10px;
+            border-radius: 5px;
+
+            cursor: pointer;
+            &:hover {
+              opacity: 0.8;
+            }
+          }
+
+          .save-tutor-save {
+            background-color: rgba(241, 174, 86, 0.87);
+          }
+          .save-tutor-cancel {
+            background-color: #f5f3f2;
+            color: #acacac;
+          }
+        }
+      }
+      .input-wrapper {
+        height: 30px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        border-radius: 4px;
+        .input-label {
+          height: 99%;
+          display: flex;
+          padding: 0 10px;
+          background-color: rgb(241 174 86 / 87%);
+          align-items: center;
+          color: white;
+          font-size: 14px;
+          font-weight: 700;
+          border-radius: 5px 0px 0px 5px;
+        }
+        .input-content {
+          background-color: #f5f5f5;
+          border-radius: 0px 5px 5px 0px;
+          flex: 1;
+
+          .tutor-input-password {
+            border: none;
+          }
+          .input-text-new-tutor,
+          .ant-input-number-input {
+            height: 28px;
+            border-radius: 0px;
+            width: 100%;
+            background: transparent;
+            font-size: 13px;
+            padding: 0px 5px 0px 5px;
+            border: none;
+            color: #aeacac;
+          }
+          :where(
+              .css-dev-only-do-not-override-240cud
+            ).ant-input-outlined:focus-within {
+            border: none !important ;
+            box-shadow: none !important;
+          }
+          .input-select-new-totor {
+            border-radius: 0px 6px 0px 6px;
+            width: 97%;
+            height: 29px;
+            padding: 0px 0px 0px 4px;
+            border: none;
+            background: transparent !important;
+
+            .ant-select-selector {
+              padding: 0px 0px 0px 5px !important;
+              border: none;
+              background: transparent !important;
+              color: #aeacac;
+              font-size: 12px;
+            }
+            .ant-select-arrow {
+              margin-right: -10px;
+            }
+          }
+        }
+        .tutor-status-radio-wrapper , .tutor-themes-radio-wrapper {
+          flex: 1;
+          height: 100%;
+          // border: 1px solid red;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .radio-grp {
+            // border: 1px solid blue;
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+          }
+          .ant-radio-wrapper {
+            color: #333;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: "Nunito" !important;
+          }
+        }
+
+        .tutor-themes-radio-wrapper {
+          border: 1px solid red;
+          .radio-grp {
+            // border: 1px solid blue;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            flex-direction: row;
+          }
+        }
+      }
+
+      .assigned-teams-wrapper {
+        width: 100%;
+        height: fit-content;
+        // border: 1px solid red;
+        border-radius: 5px;
+        background-color: #f5f5f5;
+        position: relative;
+        padding: 5px;
+        .assign-teams-label {
+          height: 27px;
+          width: fit-content;
+          padding: 0 7px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 5px;
+          background-color: rgba(241, 174, 86, 0.87);
+          color: white;
+          font-size: 14px;
+          font-weight: 700;
+          margin-bottom: 5px;
+        }
+        .teams-selection-wrapper {
+          width: 100%;
+          height: fit-content;
+          flex: 1;
+        }
+        .assigned-tutor-teams {
+          margin-bottom: 5px;
+        }
+        .no-teams-yet-wrapper {
+          width: 100%;
+          height: 50px;
+          // border: 1px solid red;
+          padding: 10px 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          .no-teams-content {
+            width: 100%;
+            height: 50px;
+            /* border: 1px solid red; */
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #acacac;
+            font-size: 12px;
+          }
+        }
+
+        :where(.css-dev-only-do-not-override-240cud).ant-select-outlined:not(
+            .ant-select-customize-input
+          )
+          .ant-select-selector {
+          border: none !important;
+          background: transparent;
+          outline: none !important;
+          box-shadow: none !important;
+        }
+
+        .ant-select-arrow {
+          display: none !important;
+        }
+        .ant-tag {
+          box-sizing: border-box;
+          margin: 5px 10px 5px 0 !important;
+          font-size: 12px;
+          line-height: 20px;
+          font-weight: 600;
+          list-style: none;
+          font-family: "Nunito";
+          height: 24px;
+          margin-inline-end: 5px;
+          padding-inline: 9px;
+          border-radius: 4px;
+          border: none;
+          display: flex;
+          align-items: center;
+        }
+
+        .ant-tag-close-icon {
+          margin-inline-start: 10px !important;
+          font-size: 8px;
+        }
       }
     }
   }
-  .certif-admin-radio {
-    margin-left: 2px;
+
+  .assigned-team-widget.ed {
+    background-color: #89c9ff26;
+    color: #89c9ff;
   }
-}
-
-.add-new-admin-modal-footer {
-  height: 30px;
-  width: 100%;
-  margin-top: 20px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.ant-upload {
-  img {
-    width: 70px;
-    height: 70px;
-    object-fit: cover;
-    border-radius: 50%;
+  .assigned-team-widget.env {
+    background-color: #afe5a629;
+    color: #afe5a6;
   }
-}
+  .assigned-team-widget.health {
+    background-color: #ee8f201f;
+    color: #f4a850;
+  }
+  .assigned-team-widget.other {
+    background-color: #ab77f624;
+    color: #b990f5;
+  }
 
-.ant-upload.ant-upload-select {
-  width: 80px !important;
-  height: 80px !important;
-  font-weight: 700 !important;
-}
-
-.ant-upload-wrapper.ant-upload-picture-card-wrapper
-  .ant-upload-list.ant-upload-list-picture-card
-  .ant-upload-list-item-container {
-  height: 80px !important;
-  width: 80px !important;
-}
-.ant-upload-wrapper
-  .ant-upload-list.ant-upload-list-picture-card
-  .ant-upload-list-item-error {
-  border-color: #1677ff;
-}
-.ant-upload-wrapper
-  .ant-upload-list.ant-upload-list-picture-card
-  .ant-upload-list-item {
-  padding: 3px !important;
-}
-
-.ant-upload-list-item-thumbnail img {
-  border-radius: 5px !important;
-}
-
-.ant-upload-wrapper.ant-upload-picture-card-wrapper
-  .ant-upload-list.ant-upload-list-picture-card
-  .ant-upload-list-item::before {
-  width: 92% !important;
-  height: 92% !important;
-  border-radius: 5px !important;
+  .ant-radio-inner {
+    border-radius: 22% !important;
+  }
+  .ant-radio-checked .ant-radio-inner {
+    border-color: #89c9ff !important;
+    background-color: #89c9ff !important;
+  }
 }

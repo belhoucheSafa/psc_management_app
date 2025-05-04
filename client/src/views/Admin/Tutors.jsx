@@ -8,8 +8,13 @@ import {
   Switch,
   QRCode,
   message,
+  Drawer,
+  InputNumber,
 } from "antd";
 import { TiUserAddOutline } from "react-icons/ti";
+
+import { MdOutlineAttachMoney } from "react-icons/md";
+import { IoClose } from "react-icons/io5";
 import { AiOutlineUserDelete, AiOutlineReload } from "react-icons/ai";
 import { LiaUserEditSolid } from "react-icons/lia";
 import "./tutors.scss";
@@ -89,7 +94,80 @@ const initialTutorsData = [
   },
 ];
 
+import { Select, Tag } from "antd";
+
+const themeOptions = [
+  { value: "Education", label: "Education", theme: "ed" },
+  { value: "Environnement", label: "Environnement", theme: "env" },
+  { value: "Health", label: "Health", theme: "health" },
+  { value: "Culture & Sport", label: "Culture & Sport", theme: "other" },
+];
+
+const teamOptions = [
+  { value: "Team 5", label: "Team 5", theme: "health" },
+  { value: "Team 7", label: "Team 7", theme: "other" },
+  { value: "Team 8", label: "Team 8", theme: "env" },
+];
+
+const tagRender = (props) => {
+  const { label, value, closable, onClose } = props;
+  const onPreventMouseDown = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
+  // Find the full team object based on the value
+  const team = teamOptions.find((team) => team.value === value);
+  const teamName = team?.label || value;
+  const teamTheme = team?.theme || "";
+
+  return (
+    <Tag
+      className={`assigned-team-widget ${teamTheme}`}
+      onMouseDown={onPreventMouseDown}
+      closable={closable}
+      onClose={onClose}
+      style={{ marginInlineEnd: 4 }}
+    >
+      {teamName}
+    </Tag>
+  );
+};
+const themeTagRender = (props) => {
+  const { label, value, closable, onClose } = props;
+  const themeObj = themeOptions.find((theme) => theme.value === value);
+  const themeClass = themeObj?.theme || "";
+
+  const onPreventMouseDown = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
+  return (
+    <Tag
+      className={`assigned-team-widget ${themeClass}`}
+      onMouseDown={onPreventMouseDown}
+      closable={closable}
+      onClose={onClose}
+      style={{ marginInlineEnd: 4 }}
+    >
+      {label}
+    </Tag>
+  );
+};
+
 const Tutors = () => {
+  const [open, setOpen] = useState(false);
+
+  const showDrawer = () => {
+    setOpen(true);
+    setAddDrawerTitle("NEW TUTOR");
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
+
   const [tutors, setTutors] = useState(initialTutorsData);
   const [activeCardId, setActiveCardId] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -97,7 +175,7 @@ const Tutors = () => {
   const [matricule, setMatricule] = useState("");
   const [gender, setGender] = useState("male");
   const tutorCardRef = useRef(null);
-
+  const [selectedTeams, setSelectedTeams] = useState([]);
   // Close overlay when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -218,7 +296,8 @@ const Tutors = () => {
           <div className="tutors-list-layout-1-top-right">
             <div
               className="import-student-list-button"
-              onClick={handleAddTutor}
+              // onClick={handleAddTutor}
+              onClick={showDrawer}
             >
               <div className="icon">
                 <TiUserAddOutline />
@@ -313,98 +392,202 @@ const Tutors = () => {
         </div>
       </div>
 
-      <Modal
-        title="Add New Tutor"
-        open={isModalVisible}
-        onCancel={handleCancelModal}
-        footer={null}
-        centered
-        destroyOnClose
+      <Drawer
+        title={null}
+        onClose={onClose}
+        open={open}
+        className="add-new-tutor-drawer"
+        width={350}
+        height={200}
       >
-        <Form form={form} onFinish={handleFormSubmit} layout="vertical">
-          <div className="add-new-admin-form-wrapper">
-            <div className="leftside">
-              <Form.Item
-                name="firstName"
-                label="First Name"
-                rules={[{ required: true, message: "Please input first name" }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                name="lastName"
-                label="Last Name"
-                rules={[{ required: true, message: "Please input last name" }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                name="gender"
-                label="Gender"
-                rules={[{ required: true, message: "Please select gender" }]}
-              >
-                <Radio.Group
-                  onChange={(e) => setGender(e.target.value)}
-                  value={gender}
-                >
-                  <Radio value="male">Male</Radio>
-                  <Radio value="female">Female</Radio>
-                </Radio.Group>
-              </Form.Item>
-            </div>
+        <div className="add-new-tutor-header">
+          {/* <div className="close-btn" onClick={onClose}>
+            <IoClose />
+          </div> */}
+        </div>
 
-            <div className="rightside">
-              <Form.Item name="matricule" label="Matricule">
-                <Input
-                  value={matricule}
-                  readOnly
-                  addonAfter={
-                    <QRCode
-                      value={matricule}
-                      size={40}
-                      style={{ marginLeft: 8 }}
-                    />
-                  }
-                />
-              </Form.Item>
-
-              <Form.Item
-                name="phone"
-                label="Phone Number"
-                rules={[
-                  { required: true, message: "Please input phone number" },
-                  { validator: validatePhoneNumber },
-                ]}
-              >
-                <Input maxLength={8} />
-              </Form.Item>
-
-              <Form.Item
-                name="password"
-                label="Password"
-                rules={[{ required: true, message: "Please input password" }]}
-              >
-                <Input.Password
-                  addonAfter={
-                    <Button
-                      type="text"
-                      icon={<AiOutlineReload />}
-                      onClick={generatePassword}
-                      style={{ height: "100%" }}
-                    />
-                  }
-                />
-              </Form.Item>
-
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Add Tutor
-                </Button>
-              </Form.Item>
+        <div className="new-tutor-body-wrapper">
+          <div className="tutor-icon-wrapper">
+            <div className="tutor-icon">
+              <QRCode
+                className="tutor-icon-qrcode"
+                value={"fdf"}
+                style={{ borderRadius: "50%" }}
+              />
             </div>
           </div>
-        </Form>
-      </Modal>
+          <div className="tutor-details-container">
+            <div className="tutor-id-wrapper">TUTOR ID : TUT-PSC-01</div>
+
+            <div className="new-tuto-infos-wrapper">
+              <div className="form-wrapper">
+                <div className="input-wrapper">
+                  <div className="input-label">Firstname</div>
+                  <div className="input-content">
+                    <Input
+                      placeholder=""
+                      className="input-text-new-tutor"
+                      name="name"
+                      // value={formData.name}
+                      // onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="input-wrapper">
+                  <div className="input-label">Lastname</div>
+                  <div className="input-content">
+                    <Input
+                      placeholder=""
+                      className="input-text-new-tutor"
+                      name="name"
+                      // value={formData.name}
+                      // onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="input-wrapper">
+                  <div className="input-label">Email</div>
+                  <div className="input-content">
+                    <Input
+                      placeholder=""
+                      className="input-text-new-tutor"
+                      name="name"
+                      // value={formData.name}
+                      // onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="input-wrapper">
+                  <div className="input-label">Phone</div>
+                  <div className="input-content">
+                    <Input
+                      placeholder=""
+                      className="input-text-new-tutor"
+                      name="name"
+                      // value={formData.name}
+                      // onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="input-wrapper">
+                  <div className="input-label">Status</div>
+                  <div className="tutor-status-radio-wrapper">
+                    <Radio.Group
+                      // onChange={(e) =>
+                      //   setFormData({
+                      //     ...formData,
+                      //     tutorType: e.target.value,
+                      //     selectedThemes: [],
+                      //   })
+                      // }
+                      // value={formData.tutorType}
+                      className="radio-grp"
+                    >
+                      <Radio value="part-time">Part-Time</Radio>
+                      <Radio value="permanent">Permanent</Radio>
+                    </Radio.Group>
+                  </div>
+                </div>
+                {/* <div className="input-wrapper">
+                  <div className="input-label">Themes</div>
+                  <div className="tutor-themes-radio-wrapper">
+                    <Radio.Group
+                    // onChange={(e) =>
+                    //   setFormData({
+                    //     ...formData,
+                    //     tutorType: e.target.value,
+                    //     selectedThemes: [],
+                    //   })
+                    // }
+                    // value={formData.tutorType}
+                    className="radio-grp"
+                    >
+                      <Radio value="part-time">Education</Radio>
+                      <Radio value="permanent">Health</Radio>
+                      <Radio value="part-time">Education</Radio>
+                      <Radio value="permanent">Health</Radio>
+                    </Radio.Group>
+                  </div>
+                </div> */}
+
+                <div className="input-wrapper">
+                  <div className="input-label">Password</div>
+                  <div className="input-content">
+                    <Input.Password
+                      placeholder=""
+                      className="input-text-new-tutor"
+                      name="password"
+                      // value={formData.password}
+                      // onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+
+               
+                <div className="assigned-teams-wrapper">
+                  <div className="assign-teams-label">Themes</div>
+                  <div className="teams-selection-wrapper">
+                    <Select
+                      mode="multiple"
+                      tagRender={themeTagRender}
+                      // value={selectedThemes}
+                      // onChange={setSelectedThemes}
+                      style={{ width: "100%" }}
+                      options={themeOptions}
+                      optionFilterProp="label"
+                      className="assigned-tutor-teams"
+                      maxTagCount={4} // Optional: You can also control visible tags
+                    />
+                  </div>
+                </div>
+
+                <div className="assigned-teams-wrapper">
+                  <div className="assign-teams-label">Assigned Teams</div>
+                  <div className="teams-selection-wrapper">
+                    <Select
+                      mode="multiple"
+                      tagRender={tagRender}
+                      value={selectedTeams}
+                      onChange={setSelectedTeams}
+                      style={{ width: "100%" }}
+                      options={teamOptions.map((team) => ({
+                        value: team.value, // This is the string value ("Team 5")
+                        // label: (
+                        //   <div className={`assigned-team-widget ${team.theme}`}>
+                        //     {team.label}
+                        //   </div>
+                        // ),
+                        label: team.label,
+                        // The theme is included in the team object we'll look up in tagRender
+                      }))}
+                      optionFilterProp="label"
+                      className="assigned-tutor-teams"
+                    />
+
+                    {/* <div className="no-teams-yet-wrapper">
+                      <div className="no-teams-content">NO TEAMS ASSIGNED</div>
+                    </div> */}
+                  </div>
+                </div>
+
+
+            
+
+
+                
+              </div>
+              <div className="new-tutor-btns-wrapper">
+                <button className="save-tutor-cancel">Cancel</button>
+                <button className="save-tutor-save">Save Tutor</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Drawer>
     </div>
   );
 };

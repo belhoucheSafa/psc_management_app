@@ -101,6 +101,7 @@ const routes = [
     roles: ["admin"],
     protected: true,
   },
+  
   {
     path: "/admin/events",
     component: lazy(() => import("./views/Admin/Events.jsx")),

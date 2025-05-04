@@ -7,6 +7,8 @@ import SETTINGSICON from "../../assets/icons/settingsIcon.png";
 import LOGOUTICON from "../../assets/icons/logoutIcon.png";
 import ADMINAVATAR from "../../assets/icons/adminAvatar.png";
 import LIGHTDARKMODEICON from "../../assets/icons/lightDarkMode2.png"
+import { HiMiniLanguage } from "react-icons/hi2";
+
 const Header = () => {
   return (
     <div className="admin_layout_header">
@@ -28,7 +30,7 @@ const Header = () => {
           </div>
         </div>
         <div className="admin-greeting-wrapper">
-          <div className="greeting-top">Welcome Back Admin Mahmoud !</div>
+          <div className="greeting-top">Welcome Back Admin !</div>
           <div className="greeting-bottom">
             Your leadership boosted PSC completion by 35% 🔥
           </div>
@@ -49,6 +51,7 @@ const Header = () => {
         </div>
         <div className="widget-wrapper logout-widget">
           <img src={LOGOUTICON} alt="" />
+          {/* <HiMiniLanguage /> */}
         </div>
       </div>
     </div>
