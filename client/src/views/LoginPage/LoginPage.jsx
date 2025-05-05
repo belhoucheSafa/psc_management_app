@@ -73,6 +73,10 @@ const LoginPage = () => {
   const [isSwapped, setIsSwapped] = useState(false);
   const [createTeam, setCreateTeam] = useState(false);
   const [selectedRole, setSelectedRole] = useState(null);
+  const [loginForm, setLoginForm] = useState({
+    email: '',
+    password: ''
+  });
 
   // Team Creation States
   const [teamCreationState, setTeamCreationState] = useState({
@@ -207,26 +211,40 @@ const LoginPage = () => {
       },
     });
 
-    creationTimer.current = setTimeout(async () => {
-      try {
-        const result = await mockSaveTeam(formData);
-        if (result.success) {
-          generateAuthCode();
-          setTeamCreationState((prev) => ({
-            ...prev,
-            status: "success",
-          }));
-        }
-      } catch (error) {
-        setTeamCreationState({
-          status: "idle",
-          formData: formData,
-        });
-        alert("Erreur lors de la création de l'équipe");
-      } finally {
+    try {
+      const response = await fetch('/api/v1/teams', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          members: formData.selectedMembers,
+          theme: formData.selectedTheme,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setTeamCreationState((prev) => ({
+          ...prev,
+          status: "success",
+        }));
+      } else {
+        throw new Error(data.message || 'Failed to create team');
+      }
+    } catch (error) {
+      setTeamCreationState({
+        status: "idle",
+        formData: formData,
+      });
+      alert("Erreur lors de la création de l'équipe: " + error.message);
+    } finally {
+      if (creationTimer.current) {
+        clearTimeout(creationTimer.current);
         creationTimer.current = null;
       }
-    }, 5000);
+    }
   };
 
   // const handleCancelCreation = () => {
@@ -301,7 +319,38 @@ const LoginPage = () => {
     handleResetForm();
   };
 
-  const onChange = (text) => console.log("onChange:", text);
+  const handleCodeLogin = async (code) => {
+    try {
+      const response = await fetch('/api/v1/teams/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ accessCode: code }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Store the token
+        localStorage.setItem('token', data.token);
+        // Redirect to team space
+        window.location.href = '/team-space';
+      } else {
+        throw new Error(data.message || 'Invalid access code');
+      }
+    } catch (error) {
+      alert('Login failed: ' + error.message);
+    }
+  };
+
+  // Update the OTP input handler
+  const onChange = (text) => {
+    if (text.length === 7) {
+      handleCodeLogin(text);
+    }
+  };
+
   const onInput = (value) => console.log("onInput:", value);
   const sharedProps = { onChange, onInput };
 
@@ -317,6 +366,61 @@ const LoginPage = () => {
     value: student.matricule,
     ...student,
   }));
+
+  const handleAdminLogin = async () => {
+    try {
+      console.log('Attempting admin login with:', loginForm);
+      const response = await fetch('/api/v1/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginForm),
+      });
+
+      const data = await response.json();
+      console.log('Login response:', data);
+
+      if (response.ok) {
+        // Store the token and user data
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify({
+          id: data.data.user.id,
+          name: data.data.user.name,
+          email: data.data.user.email,
+          role: data.data.user.role
+        }));
+
+        // Redirect based on role
+        switch (data.data.user.role) {
+          case 'admin':
+            window.location.href = '/admin-dashboard';
+            break;
+          case 'tutor':
+            window.location.href = '/tutor-dashboard';
+            break;
+          case 'student':
+            window.location.href = '/student-dashboard';
+            break;
+          default:
+            window.location.href = '/';
+        }
+      } else {
+        throw new Error(data.message || 'Login failed');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('Login failed: ' + error.message);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setLoginForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   return (
     <div className={`login-page-container ${isSwapped ? "swapped" : ""}`}>
@@ -427,12 +531,23 @@ const LoginPage = () => {
                       Connectez-vous et démarrez l'aventure PSC
                     </div>
                     <div className="center-section">
-                      <Input placeholder="Email" className="login-input" />
+                      <Input 
+                        placeholder="Email" 
+                        className="login-input"
+                        name="email"
+                        value={loginForm.email}
+                        onChange={handleInputChange}
+                      />
                       <Input.Password
                         placeholder="Mot de passe"
                         className="login-input"
+                        name="password"
+                        value={loginForm.password}
+                        onChange={handleInputChange}
                       />
-                      <div className="login-button">Se Connecter</div>
+                      <div className="login-button" onClick={handleAdminLogin}>
+                        Se Connecter
+                      </div>
                       <div className="questions-wrapper">
                         Questions ?{" "}
                         <span className="span-grey">

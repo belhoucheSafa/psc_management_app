@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './adminLayout.scss';
 
 import { PiCaretUpDownBold } from "react-icons/pi";
 import { AiOutlineDashboard } from "react-icons/ai";
@@ -14,7 +16,6 @@ import { LuNotebookTabs } from "react-icons/lu";
 import { MdOutlineLibraryBooks } from "react-icons/md";
 import { HiOutlineUserGroup } from "react-icons/hi2";
 import { HiOutlineLogout } from "react-icons/hi";
-import { useLocation, useNavigate } from "react-router-dom";
 import { LuLogOut } from "react-icons/lu";
 
 import MAINLOGO from "../../assets/images/mainLogo2.png";
@@ -22,17 +23,27 @@ import ADMINAVATAR from "../../assets/icons/adminAvatar.png";
 import LOGOUTICON from "../../assets/icons/logoutIcon.png";
 
 const Sidebar = () => {
-  const [activeOption, setActiveOption] = useState("Option 1");
   const navigate = useNavigate();
-  const location = useLocation();
-  const currentPath = location.pathname;
+  const [user, setUser] = useState(null);
 
-  const handleSelect = (option, path) => {
-    setActiveOption(option);
-    navigate(path);
-    console.log("✅", option);
-    setActiveOption(option);
+  useEffect(() => {
+    // Get user data from localStorage
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/');
   };
+
+  if (!user || user.role !== 'admin') {
+    return null;
+  }
+
   const options = [
     {
       label: "Dashboard",
@@ -46,10 +57,6 @@ const Sidebar = () => {
     { label: "Teams", icon: <HiUserGroup />, path: "/admin/teams" },
     { label: "Reports", icon: <LuSwatchBook />, path: "/admin/reports" },
   ];
-
-  const handleLogout = () => {
-    // Your logout logic here (e.g., clear tokens, redirect, etc.)
-  };
 
   return (
     <div className="admin_layout_sidebar">
@@ -72,7 +79,6 @@ const Sidebar = () => {
           <PiCaretUpDownBold />
         </div>
       </div>
-
 
       <div className="admin-layout-sidebar-center">
         <div className="dropdown-menu">
@@ -116,11 +122,9 @@ const Sidebar = () => {
           <div className="user-role">Administrator</div>
         </div>
         <div className="logout-icon-wrapper">
-          {/* <LuLogOut  /> */}
           <img src={LOGOUTICON} alt="" />
         </div>
       </div>
-      
     </div>
   );
 };
