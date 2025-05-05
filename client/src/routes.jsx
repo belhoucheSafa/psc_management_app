@@ -116,14 +116,20 @@ const routes = [
     roles: ["admin"],
     protected: true,
   },
-  {
-    path: "/admin/reports",
-    component: lazy(() => import("./views/Admin/Reports.jsx")),
-    layout: "roleBased",
-    roles: ["admin"],
-    protected: true,
-  },
-
+    {
+      path: "/admin/reports",
+      component: lazy(() => import("./views/Admin/Reports.jsx")),
+      layout: "roleBased",
+      roles: ["admin"],
+      protected: true,
+    },
+    {
+      path: "/admin/settings",
+      component: lazy(() => import("./views/Admin/SettingsAdmin.jsx")),
+      layout: "roleBased",
+      roles: ["admin"],
+      protected: true,
+    },
 
 
 

@@ -58,10 +58,10 @@ const initialTutorsData = [
     gender: "male",
     matricule: "TUT-PSC-003",
     teams: [
-      { name: "Team 5", theme: "health" },
-      { name: "Team 8", theme: "env" },
-      { name: "Team 19", theme: "ed" },
-      { name: "Team 27", theme: "other" },
+      // { name: "Team 5", theme: "health" },
+      // { name: "Team 8", theme: "env" },
+      // { name: "Team 19", theme: "ed" },
+      // { name: "Team 27", theme: "other" },
     ],
     active: true,
   },
@@ -161,7 +161,6 @@ const Tutors = () => {
 
   const showDrawer = () => {
     setOpen(true);
-    setAddDrawerTitle("NEW TUTOR");
   };
 
   const onClose = () => {
@@ -174,8 +173,15 @@ const Tutors = () => {
   const [form] = Form.useForm();
   const [matricule, setMatricule] = useState("");
   const [gender, setGender] = useState("male");
+  const [status, setStatus] = useState(""); // '' | 'permanent' | 'part-time'
+  const [selectedThemes, setSelectedThemes] = useState([]);
   const tutorCardRef = useRef(null);
   const [selectedTeams, setSelectedTeams] = useState([]);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   // Close overlay when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -219,6 +225,19 @@ const Tutors = () => {
     return Promise.resolve();
   };
 
+  const handleStatusChange = (e) => {
+    const value = e.target.value;
+    setStatus(value);
+    if (value === "permanent") {
+      setSelectedThemes(themeOptions.map(t => t.value));
+    } else if (value === "part-time") {
+      const shuffled = [...themeOptions].sort(() => 0.5 - Math.random());
+      setSelectedThemes([shuffled[0].value, shuffled[1].value]);
+    } else {
+      setSelectedThemes([]);
+    }
+  };
+
   const handleFormSubmit = (values) => {
     const newTutor = {
       ...values,
@@ -226,12 +245,16 @@ const Tutors = () => {
       active: false, // Set to false for first creation as requested
       matricule,
       gender,
+      status,
+      themes: selectedThemes,
       teams: [],
     };
-
-    setTutors((prevTutors) => [...prevTutors, newTutor]);
+    setTutors(prevTutors => [...prevTutors, newTutor]);
     setIsModalVisible(false);
     form.resetFields();
+    setGender("male");
+    setStatus("");
+    setSelectedThemes([]);
     message.success("Tutor added successfully!");
   };
 
@@ -281,6 +304,47 @@ const Tutors = () => {
     );
   };
 
+  const resetForm = () => {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPhone("");
+    setPassword("");
+    setGender("male");
+    setStatus("");
+    setSelectedThemes([]);
+    setSelectedTeams([]);
+    setMatricule("");
+  };
+
+  const handleSaveTutor = () => {
+    if (!firstName || !lastName || !email || !phone || !status || selectedThemes.length === 0) {
+      message.error("Please fill all required fields.");
+      return;
+    }
+    const newTutor = {
+      id: tutors.length + 1,
+      firstName,
+      lastName,
+      email,
+      phone,
+      password,
+      gender,
+      status,
+      themes: selectedThemes,
+      teams: selectedTeams.map(teamValue => {
+        const team = teamOptions.find(t => t.value === teamValue);
+        return team ? { name: team.label, theme: team.theme } : { name: teamValue, theme: '' };
+      }),
+      matricule,
+      active: false,
+    };
+    setTutors(prevTutors => [...prevTutors, newTutor]);
+    setOpen(false);
+    resetForm();
+    message.success("Tutor added successfully!");
+  };
+
   return (
     <div className="tutors-list-wrapper">
       <div className="tutors-list-layout-1">
@@ -313,9 +377,8 @@ const Tutors = () => {
               <div
                 key={tutor.id}
                 ref={(el) => (tutorCardRefs.current[tutor.id] = el)}
-                className={`tutor-card-wrapper ${
-                  activeCardId === tutor.id ? "overlay-active" : ""
-                }`}
+                className={`tutor-card-wrapper ${activeCardId === tutor.id ? "overlay-active" : ""
+                  }`}
                 onClick={() => setActiveCardId(tutor.id)}
               >
                 <div className="tutor-card-top">
@@ -350,20 +413,17 @@ const Tutors = () => {
                 </div>
 
                 <div className="tutor-card-bottom">
-                  <div className="tutor-teams-wrapper">
-                    {tutor.teams && tutor.teams.length > 0 ? (
-                      tutor.teams.map((team, index) => (
-                        <div
-                          key={index}
-                          className={`assigned-team-widget ${team.theme}`}
-                        >
+                  {tutor.teams && tutor.teams.length > 0 ? (
+                    <div className="tutor-teams-wrapper">
+                      {tutor.teams.map((team, index) => (
+                        <div key={index} className={`assigned-team-widget ${team.theme}`}>
                           {team.name}
                         </div>
-                      ))
-                    ) : (
-                      <div className="no-teams-yet">No teams assigned yet</div>
-                    )}
-                  </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="no-teams-yet">No teams assigned yet</div>
+                  )}
                 </div>
 
                 {activeCardId === tutor.id && (
@@ -394,7 +454,7 @@ const Tutors = () => {
 
       <Drawer
         title={null}
-        onClose={onClose}
+        onClose={() => { setOpen(false); resetForm(); }}
         open={open}
         className="add-new-tutor-drawer"
         width={350}
@@ -427,9 +487,9 @@ const Tutors = () => {
                     <Input
                       placeholder=""
                       className="input-text-new-tutor"
-                      name="name"
-                      // value={formData.name}
-                      // onChange={handleInputChange}
+                      name="firstName"
+                      value={firstName}
+                      onChange={e => setFirstName(e.target.value)}
                     />
                   </div>
                 </div>
@@ -440,9 +500,9 @@ const Tutors = () => {
                     <Input
                       placeholder=""
                       className="input-text-new-tutor"
-                      name="name"
-                      // value={formData.name}
-                      // onChange={handleInputChange}
+                      name="lastName"
+                      value={lastName}
+                      onChange={e => setLastName(e.target.value)}
                     />
                   </div>
                 </div>
@@ -453,9 +513,9 @@ const Tutors = () => {
                     <Input
                       placeholder=""
                       className="input-text-new-tutor"
-                      name="name"
-                      // value={formData.name}
-                      // onChange={handleInputChange}
+                      name="email"
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
                     />
                   </div>
                 </div>
@@ -466,9 +526,9 @@ const Tutors = () => {
                     <Input
                       placeholder=""
                       className="input-text-new-tutor"
-                      name="name"
-                      // value={formData.name}
-                      // onChange={handleInputChange}
+                      name="phone"
+                      value={phone}
+                      onChange={e => setPhone(e.target.value)}
                     />
                   </div>
                 </div>
@@ -477,14 +537,8 @@ const Tutors = () => {
                   <div className="input-label">Status</div>
                   <div className="tutor-status-radio-wrapper">
                     <Radio.Group
-                      // onChange={(e) =>
-                      //   setFormData({
-                      //     ...formData,
-                      //     tutorType: e.target.value,
-                      //     selectedThemes: [],
-                      //   })
-                      // }
-                      // value={formData.tutorType}
+                      onChange={handleStatusChange}
+                      value={status}
                       className="radio-grp"
                     >
                       <Radio value="part-time">Part-Time</Radio>
@@ -492,27 +546,6 @@ const Tutors = () => {
                     </Radio.Group>
                   </div>
                 </div>
-                {/* <div className="input-wrapper">
-                  <div className="input-label">Themes</div>
-                  <div className="tutor-themes-radio-wrapper">
-                    <Radio.Group
-                    // onChange={(e) =>
-                    //   setFormData({
-                    //     ...formData,
-                    //     tutorType: e.target.value,
-                    //     selectedThemes: [],
-                    //   })
-                    // }
-                    // value={formData.tutorType}
-                    className="radio-grp"
-                    >
-                      <Radio value="part-time">Education</Radio>
-                      <Radio value="permanent">Health</Radio>
-                      <Radio value="part-time">Education</Radio>
-                      <Radio value="permanent">Health</Radio>
-                    </Radio.Group>
-                  </div>
-                </div> */}
 
                 <div className="input-wrapper">
                   <div className="input-label">Password</div>
@@ -521,26 +554,25 @@ const Tutors = () => {
                       placeholder=""
                       className="input-text-new-tutor"
                       name="password"
-                      // value={formData.password}
-                      // onChange={handleInputChange}
+                      value={password}
+                      onChange={e => setPassword(e.target.value)}
                     />
                   </div>
                 </div>
 
-               
                 <div className="assigned-teams-wrapper">
                   <div className="assign-teams-label">Themes</div>
                   <div className="teams-selection-wrapper">
                     <Select
                       mode="multiple"
                       tagRender={themeTagRender}
-                      // value={selectedThemes}
-                      // onChange={setSelectedThemes}
+                      value={selectedThemes}
+                      onChange={setSelectedThemes}
                       style={{ width: "100%" }}
                       options={themeOptions}
                       optionFilterProp="label"
                       className="assigned-tutor-teams"
-                      maxTagCount={4} // Optional: You can also control visible tags
+                      maxTagCount={4}
                     />
                   </div>
                 </div>
@@ -574,15 +606,15 @@ const Tutors = () => {
                   </div>
                 </div>
 
-
-            
-
-
-                
+                {/* <div className="tutor-themes">
+                  {selectedThemes.map((theme, idx) => (
+                    <span key={idx} className={`assigned-team-widget ${themeOptions.find(t => t.value === theme)?.theme || ''}`}>{theme}</span>
+                  ))}
+                </div> */}
               </div>
               <div className="new-tutor-btns-wrapper">
-                <button className="save-tutor-cancel">Cancel</button>
-                <button className="save-tutor-save">Save Tutor</button>
+                <button className="save-tutor-cancel" onClick={() => { setOpen(false); resetForm(); }}>Cancel</button>
+                <button className="save-tutor-save" onClick={handleSaveTutor}>Save Tutor</button>
               </div>
             </div>
           </div>

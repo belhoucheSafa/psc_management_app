@@ -13,10 +13,13 @@ import { LuSwatchBook } from "react-icons/lu";
 import { LuNotebookTabs } from "react-icons/lu";
 import { MdOutlineLibraryBooks } from "react-icons/md";
 import { HiOutlineUserGroup } from "react-icons/hi2";
-
+import { HiOutlineLogout } from "react-icons/hi";
 import { useLocation, useNavigate } from "react-router-dom";
+import { LuLogOut } from "react-icons/lu";
 
 import MAINLOGO from "../../assets/images/mainLogo2.png";
+import ADMINAVATAR from "../../assets/icons/adminAvatar.png";
+import LOGOUTICON from "../../assets/icons/logoutIcon.png";
 
 const Sidebar = () => {
   const [activeOption, setActiveOption] = useState("Option 1");
@@ -43,6 +46,10 @@ const Sidebar = () => {
     { label: "Teams", icon: <HiUserGroup />, path: "/admin/teams" },
     { label: "Reports", icon: <LuSwatchBook />, path: "/admin/reports" },
   ];
+
+  const handleLogout = () => {
+    // Your logout logic here (e.g., clear tokens, redirect, etc.)
+  };
 
   return (
     <div className="admin_layout_sidebar">
@@ -100,9 +107,23 @@ const Sidebar = () => {
           </div>
         </div>
       </div>
-      <div className="admin-layout-sidebar-bottom"></div>
+      <div className="admin-layout-sidebar-bottom">
+        <div className="avatar-wrapper-logout">
+          <img src={ADMINAVATAR} alt="" />
+        </div>
+        <div className="loggged-user-details">
+          <div className="user-name">Mahmoud Menyaoui</div>
+          <div className="user-role">Administrator</div>
+        </div>
+        <div className="logout-icon-wrapper">
+          {/* <LuLogOut  /> */}
+          <img src={LOGOUTICON} alt="" />
+        </div>
+      </div>
+      
     </div>
   );
 };
 
 export default Sidebar;
+ 

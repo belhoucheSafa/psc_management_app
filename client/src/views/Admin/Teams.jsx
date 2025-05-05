@@ -214,7 +214,7 @@ const Teams = () => {
       groupName: "TEAM-PSC01",
       students: ["A", "K", "S", "Y"],
       tutor: { initial: "A", name: "Mr.Ahmed Ben Soltan", id: 'A' },
-      reports: [true, true, false, false],
+      reports: [true, true, false],
     },
     {
       number: "02",
@@ -223,7 +223,7 @@ const Teams = () => {
       groupName: "TEAM-PSC02",
       students: ["L", "M", "N", "Z", "N", "A"],
       tutor: { initial: "M", name: "Ms.Maya Trabelsi", id: 'M' },
-      reports: [true, true, true, false],
+      reports: [true, true, false],
     },
     {
       number: "03",
@@ -232,7 +232,7 @@ const Teams = () => {
       groupName: "TEAM-PSC03",
       students: ["T", "B", "C"],
       tutor: { initial: "T", name: "Dr.Tariq Khalladi", id: 'T' },
-      reports: [true, true, true, true],
+      reports: [true, true, false],
     },
     {
       number: "04",
@@ -241,7 +241,7 @@ const Teams = () => {
       groupName: "TEAM-PSC04",
       students: ["R", "H", "W", "J", "S", "K", "A"],
       tutor: { initial: "H", name: "Ms.Hana Bahri", id: 'H' },
-      reports: [true, false, false, false],
+      reports: [true, false, false],
     },
   ]);
 

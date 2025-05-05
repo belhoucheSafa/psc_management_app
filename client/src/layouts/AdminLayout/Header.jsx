@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 
 import "./header.scss";
 
@@ -10,15 +11,16 @@ import LIGHTDARKMODEICON from "../../assets/icons/lightDarkMode2.png"
 import { HiMiniLanguage } from "react-icons/hi2";
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const handleSettingsClick = () => {
+    navigate('/admin/settings');
+  };
+
   return (
     <div className="admin_layout_header">
       <div className="admin-header-left-side">
-        {/* <div class="admin-avatar-wrapper">
-          <div class="progress-ring">
-            <img src={ADMINAVATAR } alt="Avatar" />
-            <div class="badge">2</div>
-          </div>
-        </div> */}
+
         <div class="admin-avatar-wrapper">
           <svg class="progress-ring" width="48" height="48">
             <circle class="bg" cx="24" cy="24" r="22" />
@@ -46,13 +48,13 @@ const Header = () => {
             <div className="alert-notif"></div>
           </div>
         </div>
-        <div className="widget-wrapper settings-widget">
-          <img src={SETTINGSICON} alt="" />
+        <div className="widget-wrapper settings-widget" onClick={handleSettingsClick}>
+          <img src={SETTINGSICON} alt="Settings" style={{ cursor: 'pointer' }} />
         </div>
-        <div className="widget-wrapper logout-widget">
+        {/* <div className="widget-wrapper logout-widget">
           <img src={LOGOUTICON} alt="" />
-          {/* <HiMiniLanguage /> */}
-        </div>
+  
+        </div> */}
       </div>
     </div>
   );
