@@ -80,6 +80,7 @@ const routes = [
     roles: ["admin"],
     protected: true,
   },
+
   {
     path: "/admin/students",
     component: lazy(() => import("./views/Admin/Students.jsx")),
